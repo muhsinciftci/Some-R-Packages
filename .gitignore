@@ -37,3 +37,12 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# R Markdown Files
+.Rmd
+
+# DS Store
+.DS_Store
+
+#Html
+.html
