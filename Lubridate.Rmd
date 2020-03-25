@@ -36,17 +36,15 @@ graphics.off()
 
 dt1 <- ymd("2020-03-25") # or today()
 # Pick the components (years, months, days) from it
-y1 <- year(dt1)
-y1
-m1 <- month(dt1)
-m1
-d1 <- day(dt1)
-d1
-q1 <- quarter(dt1)
-q1
+year(dt1)
 
-y_day <- yday(dt1)
-y_day # Day of the year
+month(dt1)
+
+day(dt1)
+
+quarter(dt1)
+
+yday(dt1) # Day of the year
 ```
 
 ```{r}
@@ -61,26 +59,24 @@ The same operations can be done for the function `now()` as well.
 
 ```{r}
 d_this_moment <- now()
-d_h <- hour(d_this_moment)
-d_h
-d_m <- minute(d_this_moment)
-d_m
-d_s <- second(d_this_moment)
-d_s
+hour(d_this_moment)
+
+minute(d_this_moment)
+
+second(d_this_moment)
 ```
 
 ## Time intervals
 
 ```{r}
-d2 <-  interval(ymd("2010-03-20"), ymd("2020-01-01"))
+d2 <- interval(ymd("2010-03-20"), ymd("2020-01-01"))
 
 # Find the start and end of the date
 int_start(d2)
 int_end(d2)
 
 # Shift the interval
-d3 <- int_shift(d2, duration(days = 10))
-d3 # The whole date has shifted by 10 days
+int_shift(d2, duration(days = 10)) # The whole date has shifted by 10 days
 ```
 
 ## Operations on Dates
@@ -94,7 +90,6 @@ length(j2)
 ```
 
 > Oberve that here the current date (j1) is NOT INCLUDED in j2. To do so, we start months from `0` instead of `1`. Thus we use the function `months(0:60)` and in this case the length of the date function will be 61. 
-
 
 OR
 ```{r}
@@ -126,18 +121,6 @@ ggplot(create_data, aes(x = Date, y = Values))+
   labs(title = "Some random numbers", caption = "lubridate package")+
   theme_light()
 ```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

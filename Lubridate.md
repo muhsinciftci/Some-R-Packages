@@ -3,7 +3,7 @@ title: "Package lubridate"
 author:
   name: Muhsin Ciftci
   affiliation: Goethe University Frankfurt
-date: "25 March 2020"
+date: "26 March 2020"
 output:
   html_document:
     highlight: kate # “tango”, “pygments”, “kate”, “haddock”
@@ -39,8 +39,7 @@ graphics.off()
 
 dt1 <- ymd("2020-03-25") # or today()
 # Pick the components (years, months, days) from it
-y1 <- year(dt1)
-y1
+year(dt1)
 ```
 
 ```
@@ -48,8 +47,7 @@ y1
 ```
 
 ```r
-m1 <- month(dt1)
-m1
+month(dt1)
 ```
 
 ```
@@ -57,8 +55,7 @@ m1
 ```
 
 ```r
-d1 <- day(dt1)
-d1
+day(dt1)
 ```
 
 ```
@@ -66,8 +63,7 @@ d1
 ```
 
 ```r
-q1 <- quarter(dt1)
-q1
+quarter(dt1)
 ```
 
 ```
@@ -75,8 +71,7 @@ q1
 ```
 
 ```r
-y_day <- yday(dt1)
-y_day # Day of the year
+yday(dt1) # Day of the year
 ```
 
 ```
@@ -108,37 +103,34 @@ The same operations can be done for the function `now()` as well.
 
 ```r
 d_this_moment <- now()
-d_h <- hour(d_this_moment)
-d_h
+hour(d_this_moment)
 ```
 
 ```
-## [1] 23
-```
-
-```r
-d_m <- minute(d_this_moment)
-d_m
-```
-
-```
-## [1] 33
+## [1] 0
 ```
 
 ```r
-d_s <- second(d_this_moment)
-d_s
+minute(d_this_moment)
 ```
 
 ```
-## [1] 37.3785
+## [1] 5
+```
+
+```r
+second(d_this_moment)
+```
+
+```
+## [1] 44.91924
 ```
 
 ## Time intervals
 
 
 ```r
-d2 <-  interval(ymd("2010-03-20"), ymd("2020-01-01"))
+d2 <- interval(ymd("2010-03-20"), ymd("2020-01-01"))
 
 # Find the start and end of the date
 int_start(d2)
@@ -158,8 +150,7 @@ int_end(d2)
 
 ```r
 # Shift the interval
-d3 <- int_shift(d2, duration(days = 10))
-d3 # The whole date has shifted by 10 days
+int_shift(d2, duration(days = 10)) # The whole date has shifted by 10 days
 ```
 
 ```
@@ -201,7 +192,6 @@ length(j2)
 
 > Oberve that here the current date (j1) is NOT INCLUDED in j2. To do so, we start months from `0` instead of `1`. Thus we use the function `months(0:60)` and in this case the length of the date function will be 61. 
 
-
 OR
 
 ```r
@@ -211,9 +201,9 @@ k2
 ```
 
 ```
-##  [1] "2020-03-25" "2019-03-25" "2018-03-25" "2017-03-25" "2016-03-25"
-##  [6] "2015-03-25" "2014-03-25" "2013-03-25" "2012-03-25" "2011-03-25"
-## [11] "2010-03-25"
+##  [1] "2020-03-26" "2019-03-26" "2018-03-26" "2017-03-26" "2016-03-26"
+##  [6] "2015-03-26" "2014-03-26" "2013-03-26" "2012-03-26" "2011-03-26"
+## [11] "2010-03-26"
 ```
 
 > As we see, the time is quite opposite of what we wanted. To avoid that: Interchange 10 and 0 (It is like flipping the dates. Otherwise when we plot the time series data, the most recent dates will come first!!!)
@@ -248,17 +238,17 @@ head(create_data, 10)
 ```
 
 ```
-##          Date     Values
-## 1  1920-03-25  0.8014295
-## 2  1921-03-25 -0.1683764
-## 3  1922-03-25 -0.7378748
-## 4  1923-03-25  1.1767771
-## 5  1924-03-25 -0.4405444
-## 6  1925-03-25 -0.8563558
-## 7  1926-03-25 -0.7114580
-## 8  1927-03-25 -1.1926271
-## 9  1928-03-25 -2.2307855
-## 10 1929-03-25  0.7345971
+##          Date      Values
+## 1  1920-03-26  1.22408103
+## 2  1921-03-26  1.19780127
+## 3  1922-03-26 -1.51781990
+## 4  1923-03-26  0.09669382
+## 5  1924-03-26 -1.35059641
+## 6  1925-03-26 -1.48515820
+## 7  1926-03-26 -0.97390733
+## 8  1927-03-26 -0.87200995
+## 9  1928-03-26  0.94569132
+## 10 1929-03-26 -1.72023306
 ```
 
 ```r
@@ -269,18 +259,6 @@ ggplot(create_data, aes(x = Date, y = Values))+
 ```
 
 ![](Lubridate_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
