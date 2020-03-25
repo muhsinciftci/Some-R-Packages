@@ -1,0 +1,147 @@
+---
+title: "Package lubridate"
+author:
+  name: Muhsin Ciftci
+  affiliation: Goethe University Frankfurt
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    highlight: kate # “tango”, “pygments”, “kate”, “haddock”
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    keep_md: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+knitr::opts_chunk$set(message = FALSE, warning=FALSE, echo = TRUE, cache = F, dpi=300)
+```
+
+# Getting Time Components
+This package makes it easier  to work  with dates etc in   `R`. Here how it goes:
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+```{r}
+rm(list = ls())
+graphics.off()
+
+dt1 <- ymd("2020-03-25") # or today()
+# Pick the components (years, months, days) from it
+y1 <- year(dt1)
+y1
+m1 <- month(dt1)
+m1
+d1 <- day(dt1)
+d1
+q1 <- quarter(dt1)
+q1
+
+y_day <- yday(dt1)
+y_day # Day of the year
+```
+
+```{r}
+# Get the  day of the week
+wday(dt1)
+
+# OR
+wday(dt1, label = T, week_start = 1) # week_start = 1 for Monday
+```
+
+The same operations can be done for the function `now()` as well.
+
+```{r}
+d_this_moment <- now()
+d_h <- hour(d_this_moment)
+d_h
+d_m <- minute(d_this_moment)
+d_m
+d_s <- second(d_this_moment)
+d_s
+```
+
+## Time intervals
+
+```{r}
+d2 <-  interval(ymd("2010-03-20"), ymd("2020-01-01"))
+
+# Find the start and end of the date
+int_start(d2)
+int_end(d2)
+
+# Shift the interval
+d3 <- int_shift(d2, duration(days = 10))
+d3 # The whole date has shifted by 10 days
+```
+
+## Operations on Dates
+We can do arithmetic operations on date functions
+
+```{r}
+j1 <- ymd("2000-01-01")
+j2 <- j1 + months(1:60) # Create a date series of length of 60 months
+j2
+length(j2)
+```
+
+> Oberve that here the current date (j1) is NOT INCLUDED in j2. To do so, we start months from `0` instead of `1`. Thus we use the function `months(0:60)` and in this case the length of the date function will be 61. 
+
+
+OR
+```{r}
+k1 <- today()
+k2 <- k1 - years(0:10) # Go back 10 years
+k2
+```
+
+> As we see, the time is quite opposite of what we wanted. To avoid that: Interchange 10 and 0 (It is like flipping the dates. Otherwise when we plot the time series data, the most recent dates will come first!!!)
+
+```{r}
+k3 <- today() - years(100:0) # 
+length(k3)
+```
+
+
+## Create some Time series Data
+```{r}
+create_data <- data.frame(Date = k3)
+class(create_data)
+
+create_data <- create_data %>%
+  mutate(Values = rnorm(length(k3)))
+
+head(create_data, 10)
+
+ggplot(create_data, aes(x = Date, y = Values))+
+  geom_line()+
+  labs(title = "Some random numbers", caption = "lubridate package")+
+  theme_light()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# References 
+- [Tidyverse](https://lubridate.tidyverse.org/reference/interval.html)
+
