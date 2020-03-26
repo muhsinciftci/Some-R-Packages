@@ -107,7 +107,7 @@ hour(d_this_moment)
 ```
 
 ```
-## [1] 0
+## [1] 1
 ```
 
 ```r
@@ -115,7 +115,7 @@ minute(d_this_moment)
 ```
 
 ```
-## [1] 35
+## [1] 15
 ```
 
 ```r
@@ -123,7 +123,7 @@ second(d_this_moment)
 ```
 
 ```
-## [1] 13.55031
+## [1] 59.99892
 ```
 
 ## Time intervals
@@ -238,17 +238,17 @@ head(create_data, 10)
 ```
 
 ```
-##          Date      Values
-## 1  1920-03-26  0.77233283
-## 2  1921-03-26 -0.03301827
-## 3  1922-03-26 -1.22714240
-## 4  1923-03-26  1.47073929
-## 5  1924-03-26 -0.39881403
-## 6  1925-03-26  1.08657221
-## 7  1926-03-26  0.42181258
-## 8  1927-03-26 -1.00094375
-## 9  1928-03-26  0.57120521
-## 10 1929-03-26  0.20903004
+##          Date     Values
+## 1  1920-03-26  1.2975620
+## 2  1921-03-26 -0.4556365
+## 3  1922-03-26 -0.1932643
+## 4  1923-03-26  1.9177252
+## 5  1924-03-26  1.1945447
+## 6  1925-03-26  1.2314872
+## 7  1926-03-26  1.1149729
+## 8  1927-03-26 -0.9953832
+## 9  1928-03-26  0.4278804
+## 10 1929-03-26  0.6062578
 ```
 
 ```r
@@ -260,6 +260,35 @@ ggplot(create_data, aes(x = Date, y = Values))+
 
 ![](Lubridate_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
+
+### Creating Time Series for Specific Dates
+
+Sometimes, instead of directly adding some number of days/months/years to pre-specified values, we may need to work with two different dates and the time in between. The example given below clarifies the situation in a more compact way.
+
+
+```r
+date1 <- ymd("2019-03-01")
+date2 <- ymd("2020-03-01")
+timediff <- date2 - date1
+timediff
+```
+
+```
+## Time difference of 366 days
+```
+
+```r
+datam <- data.frame(Date = date1 + days(timediff:0), 
+                    Data = rnorm(timediff + 1))
+
+ggplot(datam, aes(Date, Data))+
+  geom_line()+
+  theme_light()
+```
+
+![](Lubridate_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+Observe that we add 1 to `timediff` variable when creating `Data` in data.frame to make the sizes compatible. The reason is as we explained before. The current date increases the number of days/months by 1.
 
 
 
