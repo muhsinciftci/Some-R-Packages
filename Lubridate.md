@@ -107,7 +107,7 @@ hour(d_this_moment)
 ```
 
 ```
-## [1] 1
+## [1] 21
 ```
 
 ```r
@@ -115,7 +115,7 @@ minute(d_this_moment)
 ```
 
 ```
-## [1] 58
+## [1] 27
 ```
 
 ```r
@@ -123,7 +123,7 @@ second(d_this_moment)
 ```
 
 ```
-## [1] 4.92336
+## [1] 20.61482
 ```
 
 ## Time intervals
@@ -222,33 +222,34 @@ length(k3)
 ## Create some Time series Data
 
 ```r
-create_data <- data.frame(Date = k3)
+create_data <- tibble(Date = k3,
+                      Values = rnorm(length(k3)))
+
 class(create_data)
 ```
 
 ```
-## [1] "data.frame"
+## [1] "tbl_df"     "tbl"        "data.frame"
 ```
 
 ```r
-create_data <- create_data %>%
-  mutate(Values = rnorm(length(k3)))
-
 head(create_data, 10)
 ```
 
 ```
-##          Date      Values
-## 1  1920-03-26  0.92132217
-## 2  1921-03-26 -0.48954728
-## 3  1922-03-26  0.24892551
-## 4  1923-03-26 -0.02794032
-## 5  1924-03-26 -0.53487064
-## 6  1925-03-26 -0.23289271
-## 7  1926-03-26 -0.99447128
-## 8  1927-03-26 -0.67611477
-## 9  1928-03-26 -0.85462114
-## 10 1929-03-26  0.46573355
+## # A tibble: 10 x 2
+##    Date       Values
+##    <date>      <dbl>
+##  1 1920-03-26  2.28 
+##  2 1921-03-26 -0.353
+##  3 1922-03-26  0.455
+##  4 1923-03-26  1.32 
+##  5 1924-03-26 -0.598
+##  6 1925-03-26  0.658
+##  7 1926-03-26  0.706
+##  8 1927-03-26 -2.55 
+##  9 1928-03-26  0.501
+## 10 1929-03-26  0.279
 ```
 
 ```r
@@ -278,9 +279,8 @@ timediff
 ```
 
 ```r
-datam <- data.frame(Date = date1 + days(timediff:0), 
+datam <- tibble(Date = date1 + days(0:timediff), 
                     Data = rnorm(timediff + 1))
-
 
 ggplot(datam, aes(Date, Data))+
   geom_line()+
@@ -290,7 +290,6 @@ ggplot(datam, aes(Date, Data))+
 ![](Lubridate_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Observe that we add 1 to `timediff` variable when creating `Data` in data.frame to make the sizes compatible. The reason is as we explained before. The current date increases the number of days/months by 1.
-
 
 Instead, if we want to use `months(timediff:0)` we need to divide the difference and then use `ceiling()` function to convert it to an integer. The above graph can be obtained as given  below as well.
 
@@ -305,8 +304,16 @@ timediff2
 ```
 
 ```r
-datam2 <- data.frame(Date = date1 + months(timediff2:0), 
-                    Data = rnorm(timediff2 + 1))
+length(timediff2 + 1)
+```
+
+```
+## [1] 1
+```
+
+```r
+datam2 <- tibble(Date = date1 - months(0:timediff2), 
+                    Data =  1:length(rnorm(timediff2 + 1)) + rnorm(timediff2 + 1))
 
 ggplot(datam2, aes(Date, Data))+
   geom_line()+
@@ -317,8 +324,22 @@ ggplot(datam2, aes(Date, Data))+
 
 ![](Lubridate_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
-In this case, we have changed the data frequency into monthly, therefore we have less frequent data. 
+In this case, we have changed the data frequency into monthly, therefore we have less frequent data. Also, we wanted to create a time series `trend` but we got quite the opposite. Why is that? This is exactly what we touched before. When we do `date1 - months(0:timediff2)` we have the current date first and past date et the end. But we need to reverse it. Therefore, `when we subtract dates` we need to reverse the order in `months(0:timediff2)`. More compactly, we should write `months(timediff2:0)`. The correct graph should be:
 
+
+
+```r
+datam3 <- tibble(Date = date1 - months(timediff2:0), 
+                    Data =  1:length(rnorm(timediff2 + 1)) + rnorm(timediff2 + 1))
+
+ggplot(datam3, aes(Date, Data))+
+  geom_line()+
+  theme_light()+
+  labs(title = "Change time series frequency to monthly",
+       caption = "Monthly Frequency")
+```
+
+![](Lubridate_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 
 # References 
