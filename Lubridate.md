@@ -115,7 +115,7 @@ minute(d_this_moment)
 ```
 
 ```
-## [1] 15
+## [1] 58
 ```
 
 ```r
@@ -123,7 +123,7 @@ second(d_this_moment)
 ```
 
 ```
-## [1] 59.99892
+## [1] 4.92336
 ```
 
 ## Time intervals
@@ -238,17 +238,17 @@ head(create_data, 10)
 ```
 
 ```
-##          Date     Values
-## 1  1920-03-26  1.2975620
-## 2  1921-03-26 -0.4556365
-## 3  1922-03-26 -0.1932643
-## 4  1923-03-26  1.9177252
-## 5  1924-03-26  1.1945447
-## 6  1925-03-26  1.2314872
-## 7  1926-03-26  1.1149729
-## 8  1927-03-26 -0.9953832
-## 9  1928-03-26  0.4278804
-## 10 1929-03-26  0.6062578
+##          Date      Values
+## 1  1920-03-26  0.92132217
+## 2  1921-03-26 -0.48954728
+## 3  1922-03-26  0.24892551
+## 4  1923-03-26 -0.02794032
+## 5  1924-03-26 -0.53487064
+## 6  1925-03-26 -0.23289271
+## 7  1926-03-26 -0.99447128
+## 8  1927-03-26 -0.67611477
+## 9  1928-03-26 -0.85462114
+## 10 1929-03-26  0.46573355
 ```
 
 ```r
@@ -281,6 +281,7 @@ timediff
 datam <- data.frame(Date = date1 + days(timediff:0), 
                     Data = rnorm(timediff + 1))
 
+
 ggplot(datam, aes(Date, Data))+
   geom_line()+
   theme_light()
@@ -289,6 +290,34 @@ ggplot(datam, aes(Date, Data))+
 ![](Lubridate_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Observe that we add 1 to `timediff` variable when creating `Data` in data.frame to make the sizes compatible. The reason is as we explained before. The current date increases the number of days/months by 1.
+
+
+Instead, if we want to use `months(timediff:0)` we need to divide the difference and then use `ceiling()` function to convert it to an integer. The above graph can be obtained as given  below as well.
+
+
+```r
+timediff2 <- ceiling(timediff/30)
+timediff2
+```
+
+```
+## Time difference of 13 days
+```
+
+```r
+datam2 <- data.frame(Date = date1 + months(timediff2:0), 
+                    Data = rnorm(timediff2 + 1))
+
+ggplot(datam2, aes(Date, Data))+
+  geom_line()+
+  theme_light()+
+  labs(title = "Change time series frequency to monthly",
+       caption = "Monthly Frequency")
+```
+
+![](Lubridate_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
+In this case, we have changed the data frequency into monthly, therefore we have less frequent data. 
 
 
 
